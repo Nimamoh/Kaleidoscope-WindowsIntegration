@@ -17,80 +17,91 @@
 
 #include <Kaleidoscope-WindowsIntegration.h>
 
-namespace kaleidoscope {
-namespace plugin {
+namespace kaleidoscope
+{
+namespace plugin
+{
 
-// WindowsIntegration
+/** bernstein hash function */
+constexpr uint8_t hash(const char *str, uint8_t offset = 0)
+{
+  return !str[offset] ? 5381 : (hash(str, offset + 1) * 33) ^ str[offset];
+}
 
-// Member variables.
+void echo(const char *command)
+{
+  ::Focus.send(command);
+  ::Focus.send("\n");
+}
+
 bool WindowsIntegration::disabled_ = false;
 
-// Basic plugin status functions.
+void WindowsIntegration::enable() { disabled_ = false; }
+void WindowsIntegration::disable() { disabled_ = true; }
+bool WindowsIntegration::active() { return !disabled_; }
 
-// Enable the plugin.
-void WindowsIntegration::enable() {
-  disabled_ = false;
-}
+EventHandlerResult WindowsIntegration::onFocusEvent(const char *command)
+{
 
-// Disable the plugin.
-void WindowsIntegration::disable() {
-  disabled_ = true;
-}
-
-// Returns true if the plugin is enabled.
-bool WindowsIntegration::active() {
-  return !disabled_;
-}
-
-// Event handlers.
-
-// Runs once, when the plugin is initialized during Kaleidoscope.setup().
-EventHandlerResult WindowsIntegration::onSetup() {
-  // Code goes here.
-  return EventHandlerResult::OK;
-}
-
-// Run as the first thing at the start of each cycle.
-EventHandlerResult WindowsIntegration::beforeEachCycle() {
-  if(disabled_) {
+  if (::Focus.handleHelp(command, PSTR(WI_CMD_VER))
+    && ::Focus.handleHelp(command, PSTR(WI_CMD_LAYER))
+    && ::Focus.handleHelp(command, PSTR(WI_CMD_LAYERS))) {
     return EventHandlerResult::OK;
   }
-  // Code goes here.
-  return EventHandlerResult::OK;
-}
 
-// Run for every non-idle key, in each cycle the key isn't idle in. If a key
-// gets pressed, released, or is held, it is not considered idle, and this
-// event handler will run for it too.
-EventHandlerResult WindowsIntegration::onKeyswitchEvent(Key &mapped_key, byte row,
-                                              byte col, uint8_t key_state) {
-  if(disabled_) {
+  switch (hash(command))
+  {
+  case hash(WI_CMD_VER):
+
+    ::Focus.send(WI_API_VER);
+    break;
+
+  case hash(WI_CMD_LAYER):
+
+    if (::Focus.isEOL()) {
+      // ::Focus.send("Top active layer: ");
+      ::Focus.send(Layer.top());
+      break;
+    }
+
+    uint8_t layer_n;
+    ::Focus.read(layer_n);
+
+    if (::Focus.isEOL()) {
+      // ::Focus.send("Layer is active: ");
+      ::Focus.send(Layer.isActive(layer_n));
+      break;
+    }
+
+    uint8_t state;
+    ::Focus.read(state);
+    if (state) {
+      // ::Focus.send("Activate layer "); 
+      Layer.activate(layer_n);
+    } else {
+      // ::Focus.send("Deactivate layer "); 
+      Layer.deactivate(layer_n);
+    }
+    break;
+
+  case hash(WI_CMD_LAYERS):
+    ::Focus.send(layer_count);
+    break;
+  default:
+
     return EventHandlerResult::OK;
+    break;
   }
-  // Code goes here.
+
+  return EventHandlerResult::EVENT_CONSUMED;
+}
+
+EventHandlerResult WindowsIntegration::onSetup()
+{
   return EventHandlerResult::OK;
 }
 
-// Runs each cycle right before sending the various reports (keys pressed, mouse
-// events, etc) to the host.
-EventHandlerResult WindowsIntegration::beforeReportingState() {
-  if(disabled_) {
-    return EventHandlerResult::OK;
-  }
-  // Code goes here.
-  return EventHandlerResult::OK;
-}
-
-// Runs at the very end of each cycle.
-EventHandlerResult WindowsIntegration::afterEachCycle() {
-  if(disabled_) {
-    return EventHandlerResult::OK;
-  }
-  // Code goes here.
-  return EventHandlerResult::OK;
-}
-
-}  // namespace plugin
-}  // namespace kaleidoscope
+} // namespace plugin
+} // namespace kaleidoscope
 
 kaleidoscope::plugin::WindowsIntegration WindowsIntegration;

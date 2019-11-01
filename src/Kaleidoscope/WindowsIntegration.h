@@ -18,25 +18,28 @@
 #pragma once
 
 #include <Kaleidoscope.h>
+#include <Kaleidoscope-FocusSerial.h>
+#include <Kaleidoscope-Macros.h>
+
+#define WI_API_VER "0.0.1" // version of the windows integration api
+#define WI_CMD(X) "wi." X
+
+#define WI_CMD_VER WI_CMD("version")
+#define WI_CMD_LAYER WI_CMD("layer")
+#define WI_CMD_LAYERS WI_CMD("layers") // Layers getter
 
 namespace kaleidoscope {
 namespace plugin {
 
 class WindowsIntegration : public kaleidoscope::Plugin {
   public:
-    // Basic plugin status functions.
     static void enable();
     static void disable();
     static bool active();
 
-    // Event handlers. Delete what you don't need.
-    EventHandlerResult onSetup();
-    EventHandlerResult beforeEachCycle();
-    EventHandlerResult onKeyswitchEvent(Key &mapped_key, byte row, byte col,
-                                        uint8_t key_state);
-    EventHandlerResult beforeReportingState();
-    EventHandlerResult afterEachCycle();
+    EventHandlerResult onFocusEvent(const char *command);
 
+    EventHandlerResult onSetup();
   private:
     static bool disabled_;
 };
