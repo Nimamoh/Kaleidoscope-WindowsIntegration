@@ -2,6 +2,9 @@
 
 Keyboard plugin which add capabilities to communicate with [Kaleidoscope Companion tool](https://github.com/Nimamoh/Kaleidoscope-WindowsIntegration-Client)
 
+## How to install
+This is a third party plugin, follow these [instructions](https://github.com/keyboardio/Kaleidoscope/wiki/Installing-Plugins#installing-third-party-plugins) from the official kaleidoscope documentation.
+
 ## Focus commands
 This plugin uses [Focus](https://github.com/keyboardio/Kaleidoscope/blob/master/doc/plugin/FocusSerial.md) extensively. It adds these commands:
 
