@@ -1,6 +1,6 @@
 # Kaleidoscope-WindowsIntegration
 
-Keyboard plugin which add capabilities to communicate with Kaleidoscope [Companion tool](https://github.com/Nimamoh/Kaleidoscope-WindowsIntegration-Client)
+Keyboard plugin which add capabilities to communicate with [Kaleidoscope Companion tool](https://github.com/Nimamoh/Kaleidoscope-WindowsIntegration-Client)
 
 ## Focus commands
 This plugin uses [Focus](https://github.com/keyboardio/Kaleidoscope/blob/master/doc/plugin/FocusSerial.md) extensively. It adds these commands:
