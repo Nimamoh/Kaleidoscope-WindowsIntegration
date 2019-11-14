@@ -5,6 +5,33 @@ Keyboard plugin which add capabilities to communicate with [Kaleidoscope Compani
 ## How to install
 This is a third party plugin, follow these [instructions](https://github.com/keyboardio/Kaleidoscope/wiki/Installing-Plugins#installing-third-party-plugins) from the official kaleidoscope documentation.
 
+Then, modify your sketch to include the plugin and add it to `KALEIDOSCOPE_INIT_PLUGINS`
+
+```cpp
+#include "Kaleidoscope-WindowsIntegration.h"
+
+...
+KALEIDOSCOPE_INIT_PLUGINS(
+  ...
+  WindowsIntegration
+  ...
+);
+...
+```
+Don't forget to compile and flash your firmware.
+
+### How do I check the plugin is correctly setup
+Open a serial monitor tool to connect to your model 01 (arduino IDE has one under `Tools > Serial Monitor`). 
+
+Then type the `wi.version` request, you should get the plugin version as an answer:
+
+> ```
+> wi.version
+> 0.0.1
+> .
+> ```
+
+
 ## Focus commands
 This plugin uses [Focus](https://github.com/keyboardio/Kaleidoscope/blob/master/doc/plugin/FocusSerial.md) extensively. It adds these commands:
 
