@@ -21,7 +21,7 @@
 #include <Kaleidoscope-FocusSerial.h>
 #include <Kaleidoscope-Macros.h>
 
-#define WI_API_VER "0.0.1" // version of the windows integration api
+#define WI_API_VER "0.0.2" // version of the windows integration api
 #define WI_CMD(X) "wi." X
 
 #define WI_CMD_VER WI_CMD("version")

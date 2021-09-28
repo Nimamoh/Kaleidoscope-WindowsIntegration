@@ -60,7 +60,7 @@ EventHandlerResult WindowsIntegration::onFocusEvent(const char *command)
 
     if (::Focus.isEOL()) {
       // ::Focus.send("Top active layer: ");
-      ::Focus.send(Layer.top());
+      ::Focus.send(Layer.mostRecent());
       break;
     }
 

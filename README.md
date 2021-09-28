@@ -41,7 +41,7 @@ This plugin uses [Focus](https://github.com/keyboardio/Kaleidoscope/blob/master/
 
 ### `wi.layer <layer_number: n> <active_flag: 0|1>` 
 
-> Without argument, prints the top active layer number. e.g:
+> Without argument, prints the most recent actived layer number. e.g:
 >
 > ```
 > < wi.layer
